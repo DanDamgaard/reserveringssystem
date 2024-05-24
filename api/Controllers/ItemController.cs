@@ -120,14 +120,13 @@ namespace api.Controllers
             {
                 return BadRequest("Ugyldig Vare id!");
             }
-
             try
             {
-                await _itemData.GetItemById(value.Id);
+                ItemModel? item = await _itemData.GetItemById(value.Id);
             }
             catch
             {
-                return BadRequest("Ugyldig Vare id!");
+                return BadRequest("Ugyldig vare id");
             }
 
             try
@@ -156,12 +155,13 @@ namespace api.Controllers
 
             try
             {
-                await _itemData.GetItemById(id);
+               ItemModel? item = await _itemData.GetItemById(id);
             }
             catch
             {
-                return BadRequest("Ugyldig Vare id!");
+                return BadRequest("Ugyldig vare id");
             }
+            
 
             try
             {

@@ -1,4 +1,4 @@
-﻿using program.Class;
+﻿using Serilog;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +20,12 @@ namespace program
         public MainWindow()
         {
             InitializeComponent();
-            MyFrame.NavigationService.Navigate(Pages.getLoginPage());
+            MyFrame.NavigationService.Navigate(Service.Pages.getLoginPage());
+
+        }
+        public void PreventBackNavigation(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back) { e.Cancel = true; }
         }
     }
 }

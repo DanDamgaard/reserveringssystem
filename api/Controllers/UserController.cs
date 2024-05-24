@@ -75,16 +75,16 @@ namespace api.Controllers
             }
         }
 
-        [HttpGet("Login/{user}/{pass}")]
+        [HttpPost("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public async Task<ActionResult<UserModel>> Get(string user, string pass)
+        public async Task<ActionResult<UserModel>> Get([FromBody] UserModel value)
         {
             try
             {
-                UserModel u = await _userdata.GetUserByName(user);
-                if (!BCrypt.Net.BCrypt.Verify(pass, u.Password))
+                UserModel u = await _userdata.GetUserByName(value.Username);
+                if (!BCrypt.Net.BCrypt.Verify(value.Password, u.Password))
                 {
                     return NotFound("Kunne ikke finde bruger med login");
                 }
@@ -142,7 +142,7 @@ namespace api.Controllers
 
             try
             {
-               await _userdata.GetUserById(value.Id);
+               UserModel? user = await _userdata.GetUserById(value.Id);
             }
             catch
             {
@@ -187,7 +187,7 @@ namespace api.Controllers
 
             try
             {
-                await _userdata.GetUserById(id);
+               UserModel? user = await _userdata.GetUserById(id);
             }
             catch
             {

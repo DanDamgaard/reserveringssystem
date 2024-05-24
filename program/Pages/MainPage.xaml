@@ -1,0 +1,42 @@
+﻿<Page x:Class="program.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:program.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="MainPage">
+
+    <Viewbox Stretch="Fill">
+        <Grid Height="1080" Width="1920">
+            <Grid.Background>
+                <ImageBrush ImageSource="/assets/Have.jpg" />
+            </Grid.Background>
+            <Grid>
+                <Grid>
+                    <Border Background="SlateGray" Opacity=".9" CornerRadius="80" Margin="607,179,607,193" RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="0"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        
+                    </Border>
+                    <StackPanel HorizontalAlignment="Center" Margin="0,179,0,193" >
+                        <Button x:Name="UserBtn" Content="Bruger side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" Margin="0,100,0,130" FontSize="25" Click="UserBtn_Click"/>
+                        <Button x:Name="DepartmentBtn" Content="Afdelings side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" Margin="0,0,0,130" FontSize="25" Click="DepartmentBtn_Click"></Button>
+                        <Button x:Name="ItemBtn" Content="Vare side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" FontSize="25" Click="ItemBtn_Click"></Button>
+
+                    </StackPanel>
+
+                    <Button x:Name="LogoutBtn" Content="Log ud" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" FontSize="25" Click="LogoutBtn_Click" HorizontalAlignment="Left" Margin="1493,60,0,0" VerticalAlignment="Top"></Button>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Viewbox>
+</Page>

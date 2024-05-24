@@ -16,7 +16,7 @@ namespace api.Data
         public Task<IEnumerable<string>> GetItemBrands() => _db.LoadData<string, dynamic>("Call GetAllItemBrandsProcedure;", new { });
         public async Task<ItemModel?> GetItemById(int id)
         {
-            var result = await _db.LoadData<ItemModel, dynamic>("Call GetUserByIdProcedure(@ID)", new { ID = id });
+            var result = await _db.LoadData<ItemModel, dynamic>("Call GetItemByIdProcedure(@ID)", new { ID = id });
 
             return result.First();
         }

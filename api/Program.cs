@@ -45,6 +45,7 @@ builder.Services.AddSingleton<IDataAccess, DataAccess>();
 builder.Services.AddSingleton<IItemData, ItemData>();
 builder.Services.AddSingleton<IUserData, UserData>();
 builder.Services.AddSingleton<IDepartmentData, DepartmentData>();
+builder.Services.AddSingleton<IDepartmentItemData, DepartmentItemData>();
 
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 

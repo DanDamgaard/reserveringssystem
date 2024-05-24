@@ -13,8 +13,9 @@ namespace api.Model
         [Required]
         public int Department { get; set; }
         [Required]
-        public string Type { get; set; } = string.Empty;
+        public string UserRole { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
+        public string DepartmentName { get; set; } = string.Empty;
 
     }
 }

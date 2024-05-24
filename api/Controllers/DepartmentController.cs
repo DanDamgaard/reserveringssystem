@@ -36,6 +36,22 @@ namespace api.Controllers
 
         }
 
+        [HttpGet("ById/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<DepartmentModel>> Get(int id)
+        {
+            try
+            {
+                return Ok(await _departmentData.GetDepartmentById(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
+
 
         // POST api/<DepartmentController>
         [HttpPost]
@@ -73,7 +89,7 @@ namespace api.Controllers
 
             try
             {
-                await _departmentData.GetDepartmentById(value.Id);
+               DepartmentModel? department = await _departmentData.GetDepartmentById(value.Id);
             }
             catch
             {
