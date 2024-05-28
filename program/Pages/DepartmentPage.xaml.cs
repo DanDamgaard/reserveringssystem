@@ -1,4 +1,6 @@
-﻿using program.Class;
+﻿using iText.Kernel.Pdf;
+using iText.Layout.Properties;
+using program.Class;
 using program.Service;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.IO;
+using iText.IO.Font.Constants;
+using iText.Kernel.Font;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Kernel.Geom;
+using Microsoft.Win32;
+using Table = iText.Layout.Element.Table;
+using Paragraph = iText.Layout.Element.Paragraph;
 
 namespace program.Pages
 {
@@ -56,7 +67,7 @@ namespace program.Pages
             foreach (DepartmentClass d in departments)
             {
                 Button btn = new Button();
-                btn.Style = (Style)FindResource("ButtonStyle");
+                btn.Style = (System.Windows.Style)FindResource("ButtonStyle");
                 btn.Content = d.city;
                 btn.Width = 200;
                 btn.Height = 50;
@@ -418,6 +429,80 @@ namespace program.Pages
         {
             object res = Application.Current.FindResource("backButtonIcon");
             BackPic.ImageSource = (ImageSource)res;
+        }
+
+        
+
+        private void Pdf_Click(object sender, RoutedEventArgs e)
+        {
+            if(DepartmentItemDataGrid.Items.Count > 0)
+            {
+                List<DepartmentItemClass> pdfList = DepartmentItemDataGrid.ItemsSource as List<DepartmentItemClass>;
+
+                SaveFileDialog saveFile = new SaveFileDialog()
+                {
+                    Title = "Gem din Fil",
+                    Filter = "Adobe PDF(*.pdf) | *.pdf",
+                    FileName = "Vare liste"
+                };
+
+
+                if(saveFile.ShowDialog() == true)
+                {
+                    try
+                    {
+                        FileStream fs = new FileStream(saveFile.FileName, FileMode.Create);
+                        PdfWriter writer = new PdfWriter(fs);
+                        PdfDocument pdfDoc = new PdfDocument(writer);
+                        iText.Layout.Document doc = new iText.Layout.Document(pdfDoc, PageSize.A4);
+                        float[] columnWidths = { 15, 15, 15, 15, 15, 15, 15 };
+                        Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
+
+                        PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
+                        PdfFont Headerfont = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+
+                        table.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+
+                        for (int i = 0; i < DepartmentItemDataGrid.Columns.Count; i++)
+                        {
+                            Paragraph para = new Paragraph(DepartmentItemDataGrid.Columns[i].Header.ToString()).SetFont(Headerfont);
+                            para.SetFontSize(12);
+                            para.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                            para.SetFixedLeading(0);
+                            para.SetMultipliedLeading(1);
+                            Cell cell = new Cell();
+                            cell.Add(para);
+                            table.AddCell(cell);
+                        }
+
+                        foreach (DepartmentItemClass d in pdfList!)
+                        {
+                            
+                            table.AddCell(new Paragraph(d.itemNo).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                            table.AddCell(new Paragraph(d.itemName).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                            table.AddCell(new Paragraph(d.status).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                            table.AddCell(new Paragraph(d.customerName).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                            table.AddCell(new Paragraph(d.customerPhone).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                            table.AddCell(new Paragraph(d.startDateString).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                            table.AddCell(new Paragraph(d.endDateString).SetFont(font).SetFontSize(6).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                        }
+
+                        doc.Add(table);
+                        doc.Close();
+                        writer.Close();
+                        fs.Close();
+                    }
+                    catch (IOException)
+                    {
+                        MessageBox.Show("Kunne ikke lave/overskrive pdf filen. \nHvis du har filen åben så luk filen og prøv igen.\nHvis filen ikke er åben så tjek om filen er skrivebeskyttet.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Du kan ikke lave en pdf af en tom tabel");
+            }
+            
         }
     }
 }
