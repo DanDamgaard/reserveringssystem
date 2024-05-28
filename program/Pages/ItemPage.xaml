@@ -169,6 +169,11 @@
             <Button x:Name="DeleteItemBtn" Visibility="Collapsed" Content="Slet vare" Style="{DynamicResource ButtonStyle}" Width="300" Height="45" Margin="0,30,0,0" Click="DeleteItemBtn_Click"></Button>
             <Button x:Name="CancelItemBtn" Content="Annuller" Style="{DynamicResource ButtonStyle}" Width="300" Height="45" Margin="0,30,0,0" Click='CancelItemBtn_Click'></Button>
         </StackPanel>
-        <Button Grid.Column="2" x:Name="BackBtn" Content="Tilbage" Height="45" HorizontalAlignment="Right" Style="{DynamicResource ButtonStyle}" Click="BackBtn_Click"/>
+        <Button x:Name="BackBtn" Grid.Column="2" MouseEnter="BackBtn_MouseEnter" MouseLeave="BackBtn_MouseLeave" HorizontalAlignment="Right" Click="BackBtn_Click" Style="{DynamicResource EmptyButtonStyle}" BorderBrush="Transparent" BorderThickness="0" Width="100" Height="100"   RenderTransformOrigin="0.5,0.5">
+
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" x:Name="BackPic" ImageSource="{DynamicResource backButtonIcon}"></ImageBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Page>

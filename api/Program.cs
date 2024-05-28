@@ -3,6 +3,8 @@ using api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -26,6 +28,16 @@ builder.Services.AddSwaggerGen(
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+// lav logger
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Month)
+    .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+    .CreateLogger();
+// giv adgang til host kan bruge serilog
+builder.Host.UseSerilog();
+
 // tilføj auth token skema til at fortælle api hvordan token skal være til auth
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme)
@@ -57,6 +69,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// brug serilog til at logge alle handlinger i stedet for default logger
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

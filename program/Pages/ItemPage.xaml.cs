@@ -347,5 +347,17 @@ namespace program.Pages
         {
             NavigationService.Navigate(Service.Pages.getMainPage());
         }
+
+        private void BackBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("backButtonGreyIcon");
+            BackPic.ImageSource = (ImageSource)res;
+        }
+
+        private void BackBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("backButtonIcon");
+            BackPic.ImageSource = (ImageSource)res;
+        }
     }
 }

@@ -4,6 +4,7 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -36,6 +37,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("GetUsers error: " + ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
@@ -53,8 +55,9 @@ namespace api.Controllers
 
                 return Ok(await _userdata.GetUserById(id));
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("GetUsersById error: " + ex.Message);
                 return NotFound("Ugyldig bruger id");
             }
         }
@@ -69,8 +72,9 @@ namespace api.Controllers
             {
                 return Ok(await _userdata.GetUserByName(name));
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("GetUsersByName error: " + ex.Message);
                 return NotFound("Ugyldig brugenavn");
             }
         }
@@ -92,8 +96,9 @@ namespace api.Controllers
                 u.Token = token;
                 return Ok(u);
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("Login error: " + ex.Message);
                 return NotFound("Kunne ikke finde bruger med login");
             }
         }
@@ -117,8 +122,9 @@ namespace api.Controllers
 
                 return Ok("Bruger blev oprettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("CreateUser error: " + ex.Message);
                 return BadRequest("Kunne ikke oprette bruger");
             }
 
@@ -133,10 +139,12 @@ namespace api.Controllers
         {
             if (value == null)
             {
+                Log.Error("UpdateUsers error: invalid user");
                 return BadRequest("Skal sende en bruger!");
             };
             if (value.Id <= 0)
             {
+                Log.Error("UpdateUsers error: Id");
                 return BadRequest("Ugyldig bruger id!");
             }
 
@@ -146,30 +154,50 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("UpdateUsers error: Invalid Id");
                 return BadRequest("Ugyldig bruger id!");
             }
 
 
 
-            if (string.IsNullOrEmpty(value.Username) || string.IsNullOrEmpty(value.Password))
+            if (string.IsNullOrEmpty(value.Username))
             {
-                return BadRequest("Skal sende brugernavn og adgangskode!");
+                Log.Error("UpdateUsers error: Invalid username");
+                return BadRequest("Skal sende brugernavn!");
             };
 
-            try
+            if (!string.IsNullOrEmpty(value.Password))
             {
-                string hash = BCrypt.Net.BCrypt.HashPassword(value.Password);
+                try
+                {
+                    string hash = BCrypt.Net.BCrypt.HashPassword(value.Password);
 
-                value.Password = hash;
+                    value.Password = hash;
 
-                await _userdata.UpdateUser(value);
+                    await _userdata.UpdateUser(value);
 
-                return Ok("Bruger blev opdateret");
+                    return Ok("Bruger blev opdateret");
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("UpdateUsers error: " + ex.Message);
+                    return Problem("Kunne ikke opdater bruger");
+                }
             }
-            catch
+            else
             {
-                return Problem("Kunne ikke opdater bruger");
+                try
+                {
+                    await _userdata.UpdateUserNoPass(value);
+                    return Ok("Bruger blev opdateret");
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("UpdateUsers error: " + ex.Message);
+                    return Problem("Kunne ikke opdater bruger");
+                }
             }
+            
         }
 
         // DELETE api/<UserController>/5
@@ -181,6 +209,7 @@ namespace api.Controllers
         {
             if (id <= 0)
             {
+                Log.Error("DeleteUsers error: Invalid Id");
                 return BadRequest("Ugyldig bruger id");
             }
 
@@ -191,6 +220,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("DeleteUsers error: Invalid Id");
                 return BadRequest("Ugyldig bruger id!");
             }
 
@@ -200,8 +230,9 @@ namespace api.Controllers
 
                 return Ok("Bruger blev slettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("DeleteUsers error: " + ex.Message);
                 return Problem("Kunne ikke slette bruger");
             }
         }

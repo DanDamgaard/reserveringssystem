@@ -3,6 +3,7 @@ using api.Model;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,8 +32,9 @@ namespace api.Controllers
             {
                 return Ok(await _departmentItemData.GetDepartmentItems());
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("GetDepartmentItem error: " + ex.Message);
                 return NotFound("Ugyldig afdelings id");
             }
         }
@@ -48,8 +50,9 @@ namespace api.Controllers
             {
                 return Ok(await _departmentItemData.GetDepartmentItemsByDepartmentId(id));
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("GetDepartmentItemById error: " + ex.Message);
                 return NotFound("Ugyldig afdelings id");
             }
         }
@@ -65,8 +68,9 @@ namespace api.Controllers
                 await _departmentItemData.InsertDepartmentItem(ItemId, DepartmentId, Count);
                 return Ok("Afdeling varer blev oprettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("CreateDepartmentItem error: " + ex.Message);
                 return BadRequest("Kunne ikke oprette afdeling varer");
             }
 
@@ -81,10 +85,12 @@ namespace api.Controllers
         {
             if (value == null)
             {
+                Log.Error("UpdateDepartmentItem error: Invalid item sent");
                 return BadRequest("Skal sende en afdelings vare!");
             };
             if (value.Id <= 0)
             {
+                Log.Error("UpdateDepartmentItem error: Invalid Id");
                 return BadRequest("Ugyldig id!");
             }
 
@@ -94,6 +100,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("UpdateDepartmentItem error: Invalid Id");
                 return BadRequest("Ugyldig afdelings vare id!");
             }
 
@@ -103,8 +110,9 @@ namespace api.Controllers
 
                 return Ok("Afdelings vare blev opdateret");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("UpdateDepartmentItem error: " + ex.Message);
                 return Problem("Kunne ikke opdater afdelings vare");
             }
         }
@@ -118,6 +126,7 @@ namespace api.Controllers
         {
             if (id <= 0)
             {
+                Log.Error("DeleteDepartmentItem error: Invalid Id");
                 return BadRequest("Ugyldig afdelings vare id");
             }
 
@@ -128,6 +137,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("DeleteDepartmentItem error: Invalid Id");
                 return BadRequest("Ugyldig afdelings vare id!");
             }
 
@@ -137,8 +147,9 @@ namespace api.Controllers
 
                 return Ok("Afdeling vare blev slettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("DeleteDepartmentItem error: " + ex.Message);
                 return Problem("Kunne ikke slette afdeling vare");
             }
         }

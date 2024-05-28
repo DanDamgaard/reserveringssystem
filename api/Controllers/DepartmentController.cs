@@ -2,6 +2,7 @@
 using api.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,6 +32,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("GetDepartments error: " + ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
@@ -47,6 +49,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("GetDepartmentsById error: " + ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
@@ -64,8 +67,9 @@ namespace api.Controllers
                 await _departmentData.InsertDepartment(value);
                 return Ok("Afdeling blev oprettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("CreateDepartment error: " + ex.Message);
                 return BadRequest("Kunne ikke oprette Afdeling");
             }
 
@@ -80,10 +84,12 @@ namespace api.Controllers
         {
             if (value == null)
             {
+                Log.Error("UpdateDepartment error: Invalid Id");
                 return BadRequest("Skal sende en afdeling!");
             };
             if (value.Id <= 0)
             {
+                Log.Error("UpdateDepartment error: Invalid Id");
                 return BadRequest("Ugyldig afdelings id!");
             }
 
@@ -93,6 +99,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("UpdateDepartment error: Invalid Id");
                 return BadRequest("Ugyldig afdelings id!");
             }
 
@@ -102,8 +109,9 @@ namespace api.Controllers
 
                 return Ok("Afdeling blev opdateret");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("UpdateDepartment error: " + ex.Message);
                 return Problem("Kunne ikke opdater afdeling");
             }
         }
@@ -117,6 +125,7 @@ namespace api.Controllers
         {
             if (id <= 0)
             {
+                Log.Error("DeleteDepartment error: Invalid Id");
                 return BadRequest("Ugyldig afdelings id");
             }
 
@@ -127,6 +136,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("DeleteDepartment error: Invalid Id");
                 return BadRequest("Ugyldig afdelings id!");
             }
 
@@ -136,8 +146,9 @@ namespace api.Controllers
 
                 return Ok("Afdeling blev slettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("DeleteDepartment error: " + ex.Message);
                 return Problem("Kunne ikke slette afdeling");
             }
         }

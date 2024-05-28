@@ -10,5 +10,6 @@ namespace api.Data
         Task<IEnumerable<UserModel>> GetUsers();
         Task InsertUser(UserModel user);
         Task UpdateUser(UserModel user);
+        Task UpdateUserNoPass(UserModel user);
     }
 }

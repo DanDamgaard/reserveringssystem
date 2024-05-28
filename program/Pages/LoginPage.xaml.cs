@@ -38,6 +38,11 @@ namespace program.Pages
                     UserNameBox.Text = "";
                     NavigationService.Navigate(Service.Pages.getMainPage());
                 }
+                else
+                {
+                    UserNameBox.Text = "";
+                    NavigationService.Navigate(Service.Pages.getDepartmentPage());
+                }
             }
             else
             {

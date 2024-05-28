@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -36,9 +37,16 @@ namespace program.Pages
         private async void Onload(object sender, RoutedEventArgs e)
         {
             ItemStatusSearchbox.Items.Insert(0, "");
+            if(Global.Login.userRole == "Bruger")
+            {
+                BackBtn.Visibility = Visibility.Collapsed;
+                LogOutBtn.Visibility = Visibility.Visible;
+            }
             ModeBox.Text = "Afdelings Vare";
             getDepartmentItems();
+            
         }
+
 
         private async Task GetDepartmentsButtons()
         {
@@ -90,6 +98,7 @@ namespace program.Pages
 
                 };
             }
+            DepartmentStack.Children[0].RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private async void getDepartmentItems()
@@ -392,6 +401,23 @@ namespace program.Pages
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(Service.Pages.getMainPage());
+        }
+
+        private void LogOutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(Service.Pages.getLoginPage());
+        }
+
+        private void BackBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("backButtonGreyIcon");
+            BackPic.ImageSource = (ImageSource)res;
+        }
+
+        private void BackBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("backButtonIcon");
+            BackPic.ImageSource = (ImageSource)res;
         }
     }
 }

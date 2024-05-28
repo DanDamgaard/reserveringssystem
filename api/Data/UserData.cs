@@ -26,6 +26,7 @@ namespace api.Data
         }
 
         public Task UpdateUser(UserModel user) => _db.SaveData("Call UpdateUserProcedure(@UserId, @User, @Pass, @Department, @UserRole)", new { UserId = user.Id, User = user.Username, Pass = user.Password, Department = user.Department, UserRole = user.UserRole });
+        public Task UpdateUserNoPass(UserModel user) => _db.SaveData("Call UpdateUserNoPassProcedure(@UserId, @User, @Department, @UserRole)", new { UserId = user.Id, User = user.Username, Department = user.Department, UserRole = user.UserRole });
         public Task InsertUser(UserModel user) => _db.SaveData("Call CreateUserProcedure(@Username, @Password, @Department, @Type)", new { Username = user.Username, Password = user.Password, Department = user.Department, Type = user.UserRole });
         public Task DeleteUser(int id) => _db.SaveData("Call DeleteUserProcedure(@UserId)", new { UserId = id });
     }

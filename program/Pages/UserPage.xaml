@@ -134,15 +134,11 @@
 
 
         </Grid>
-        <Button x:Name="BackBtn" Click="BackBtn_Click"
-            Grid.Row="0"
-            Grid.Column="2"
-            Height="60"
-            Width="300"
-            Content="Tilbage"
-            FontSize="35"
-            Margin="0,40,0,0"
-            Style="{DynamicResource ButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Top"
-            />
+        <Button x:Name="BackBtn" Grid.Column="2" MouseEnter="BackBtn_MouseEnter" MouseLeave="BackBtn_MouseLeave" HorizontalAlignment="Right" Click="BackBtn_Click" Style="{DynamicResource EmptyButtonStyle}" BorderBrush="Transparent" BorderThickness="0" Width="100" Height="100"   RenderTransformOrigin="0.5,0.5">
+
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" x:Name="BackPic" ImageSource="{DynamicResource backButtonIcon}"></ImageBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Page>

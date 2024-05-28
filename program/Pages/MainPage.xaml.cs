@@ -47,5 +47,17 @@ namespace program.Pages
             Global.Login = new UserClass(0, "", "", 0, "", "", "");
             NavigationService.Navigate(Service.Pages.getLoginPage());
         }
+
+        private void LogoutBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("LogOutIconGrey");
+            LogOutPic.ImageSource = (ImageSource)res;
+        }
+
+        private void LogoutBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("LogOutIcon");
+            LogOutPic.ImageSource = (ImageSource)res;
+        }
     }
 }

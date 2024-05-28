@@ -2,6 +2,7 @@
 using api.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,6 +32,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("GetItems error: " + ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
@@ -49,6 +51,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("GetItemTypes error: " + ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -65,6 +68,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("GetItemBrands error: " + ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -81,8 +85,9 @@ namespace api.Controllers
 
                 return Ok(await _itemData.GetItemById(id));
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("GetItemsById error: " + ex.Message);
                 return NotFound("Ugyldig bruger id");
             }
         }
@@ -98,8 +103,9 @@ namespace api.Controllers
                 await _itemData.InsertItem(value);
                 return Ok("Vare blev oprettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("CreateItem error: " + ex.Message);
                 return BadRequest("Kunne ikke oprette vare");
             }
 
@@ -114,10 +120,12 @@ namespace api.Controllers
         {
             if (value == null)
             {
+                Log.Error("UpdateItem error: Invalid item");
                 return BadRequest("Skal sende en Vare!");
             };
             if (value.Id <= 0)
             {
+                Log.Error("UpdateItem error: Invalid Id");
                 return BadRequest("Ugyldig Vare id!");
             }
             try
@@ -126,6 +134,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("UpdateItem error: Invalid Id");
                 return BadRequest("Ugyldig vare id");
             }
 
@@ -135,8 +144,9 @@ namespace api.Controllers
 
                 return Ok("Vare blev opdateret");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("UpdateItem error: " + ex.Message);
                 return Problem("Kunne ikke opdater vare");
             }
         }
@@ -150,6 +160,7 @@ namespace api.Controllers
         {
             if (id <= 0)
             {
+                Log.Error("DeleteItem error: Invalid Id");
                 return BadRequest("Ugyldig vare id");
             }
 
@@ -159,6 +170,7 @@ namespace api.Controllers
             }
             catch
             {
+                Log.Error("DeleteItem error: Invalid Id");
                 return BadRequest("Ugyldig vare id");
             }
             
@@ -169,8 +181,9 @@ namespace api.Controllers
 
                 return Ok("Vare blev slettet");
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Error("DeleteItem error: " + ex.Message);
                 return Problem("Kunne ikke slette vare");
             }
         }

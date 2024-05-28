@@ -136,11 +136,8 @@ namespace program.Pages
                 return;
             }
 
-            if (String.IsNullOrEmpty(PasswordBox.Password))
-            {
-                MessageBox.Show("Du skal skrive en adgangskode");
-                return;
-            }
+            string password = string.IsNullOrEmpty(PasswordBox.Password) ? Global.Login.password : PasswordBox.Password;
+            
             string username = UsernameBox.Text.ToLower();
 
             if (RoleBox.Text == "")
@@ -156,7 +153,7 @@ namespace program.Pages
             }
             int department = departments.Single(x => x.city == DepartmentBox.Text).id;
 
-            UserClass newUser = new UserClass(SelectedUser.id, username, PasswordBox.Password, department, RoleBox.Text, "", "");
+            UserClass newUser = new UserClass(SelectedUser.id, username, password, department, RoleBox.Text, "", "");
 
             await Global.Api.UpdateUser(newUser);
 
@@ -194,6 +191,18 @@ namespace program.Pages
             PasswordBox.Password = "";
             RoleBox.Text = "";
             DepartmentBox.Text = "";
+        }
+
+        private void BackBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("backButtonGreyIcon");
+            BackPic.ImageSource = (ImageSource)res;
+        }
+
+        private void BackBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("backButtonIcon");
+            BackPic.ImageSource = (ImageSource)res;
         }
     }
 }

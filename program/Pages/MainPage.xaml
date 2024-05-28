@@ -14,28 +14,31 @@
                 <ImageBrush ImageSource="/assets/Have.jpg" />
             </Grid.Background>
             <Grid>
-                <Grid>
-                    <Border Background="SlateGray" Opacity=".9" CornerRadius="80" Margin="607,179,607,193" RenderTransformOrigin="0.5,0.5">
-                        <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="0"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Border.RenderTransform>
-                        
-                    </Border>
-                    <StackPanel HorizontalAlignment="Center" Margin="0,179,0,193" >
-                        <Button x:Name="UserBtn" Content="Bruger side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" Margin="0,100,0,130" FontSize="25" Click="UserBtn_Click"/>
-                        <Button x:Name="DepartmentBtn" Content="Afdelings side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" Margin="0,0,0,130" FontSize="25" Click="DepartmentBtn_Click"></Button>
-                        <Button x:Name="ItemBtn" Content="Vare side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" FontSize="25" Click="ItemBtn_Click"></Button>
+                <Button x:Name="LogoutBtn" MouseEnter="LogoutBtn_MouseEnter" MouseLeave="LogoutBtn_MouseLeave" Style="{DynamicResource EmptyButtonStyle}" BorderBrush="Transparent" BorderThickness="0" Margin="1673,34,127,914" Click="LogoutBtn_Click" RenderTransformOrigin="0.5,0.5">
 
-                    </StackPanel>
+                    <Button.Background>
+                        <ImageBrush Stretch="Uniform" x:Name="LogOutPic" ImageSource="{DynamicResource LogOutIcon}"></ImageBrush>
+                    </Button.Background>
+                </Button>
+                <Border Background="SlateGray" Opacity=".9" CornerRadius="80" Margin="607,179,607,193" RenderTransformOrigin="0.5,0.5">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
 
-                    <Button x:Name="LogoutBtn" Content="Log ud" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" FontSize="25" Click="LogoutBtn_Click" HorizontalAlignment="Left" Margin="1493,60,0,0" VerticalAlignment="Top"></Button>
+                </Border>
+                <StackPanel HorizontalAlignment="Center" Margin="0,179,0,193" >
+                    <Button x:Name="UserBtn" Content="Bruger side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" Margin="0,100,0,130" FontSize="25" Click="UserBtn_Click"/>
+                    <Button x:Name="DepartmentBtn" Content="Afdelings side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" Margin="0,0,0,130" FontSize="25" Click="DepartmentBtn_Click"></Button>
+                    <Button x:Name="ItemBtn" Content="Vare side" Height="80" Width="300" Style="{DynamicResource ButtonStyle}" FontSize="25" Click="ItemBtn_Click"></Button>
 
-                </Grid>
+                </StackPanel>
+
+                
             </Grid>
         </Grid>
     </Viewbox>
