@@ -45,13 +45,20 @@ namespace program.Pages
             InitializeComponent();
         }
 
-        private async void Onload(object sender, RoutedEventArgs e)
+        private void Onload(object sender, RoutedEventArgs e)
         {
             ItemStatusSearchbox.Items.Insert(0, "");
             if(Global.Login.userRole == "Bruger")
             {
                 BackBtn.Visibility = Visibility.Collapsed;
-                LogOutBtn.Visibility = Visibility.Visible;
+                LogoutBtn.Visibility = Visibility.Visible;
+                ModeStack.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                BackBtn.Visibility = Visibility.Visible;
+                LogoutBtn.Visibility = Visibility.Collapsed;
+                ModeStack.Visibility = Visibility.Visible;
             }
             ModeBox.Text = "Afdelings Vare";
             getDepartmentItems();
@@ -187,6 +194,7 @@ namespace program.Pages
         private void DepartmentItemDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DepartmentBtnGrid.Visibility = Visibility.Collapsed;
+            DeleteItemBtn.Visibility = Global.Login.userRole == "Admin" ? Visibility.Visible : Visibility.Collapsed;
             EditItemGrid.Visibility = Visibility.Visible;
             selectedItem = (DepartmentItemClass)DepartmentItemDataGrid.SelectedItem;
             ItemNoBox.Text = selectedItem.itemNo;
@@ -414,9 +422,22 @@ namespace program.Pages
             NavigationService.Navigate(Service.Pages.getMainPage());
         }
 
-        private void LogOutBtn_Click(object sender, RoutedEventArgs e)
+        private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
+            Global.Login = new UserClass(0, "", "", 0, "", "", "");
             NavigationService.Navigate(Service.Pages.getLoginPage());
+        }
+
+        private void LogoutBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("LogOutIconGrey");
+            LogOutPic.ImageSource = (ImageSource)res;
+        }
+
+        private void LogoutBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            object res = Application.Current.FindResource("LogOutIcon");
+            LogOutPic.ImageSource = (ImageSource)res;
         }
 
         private void BackBtn_MouseEnter(object sender, MouseEventArgs e)
@@ -504,5 +525,7 @@ namespace program.Pages
             }
             
         }
+
+        
     }
 }

@@ -30,6 +30,7 @@ namespace program.Pages
 
         private async void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
+            loadingGrid.Visibility = Visibility.Visible;
             UserClass user = new UserClass(0, UserNameBox.Text.ToLower(), passwordBox.Password, 0, "Bruger", "","");
             if (await Global.Api.UserLogin(user))
             {
@@ -43,9 +44,11 @@ namespace program.Pages
                     UserNameBox.Text = "";
                     NavigationService.Navigate(Service.Pages.getDepartmentPage());
                 }
+                loadingGrid.Visibility = Visibility.Collapsed;
             }
             else
             {
+                loadingGrid.Visibility = Visibility.Collapsed;
                 MessageBox.Show("Forkert login");
             }
         }

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,6 +83,7 @@ namespace program.Pages
 
         private async void CreateUserBtn_Click(object sender, RoutedEventArgs e)
         {
+            // Valider textboxe  
             if (String.IsNullOrEmpty(UsernameBox.Text))
             {
                 MessageBox.Show("Du skal skrive et bruger navn");
@@ -99,6 +101,30 @@ namespace program.Pages
                 MessageBox.Show("Du skal skrive en adgangskode");
                 return;
             }
+
+            Regex hasNumber = new Regex(@"[0-9]+");
+            Regex hasUpperChar = new Regex(@"[A-Z]+");
+            Regex hasMinimum8Chars = new Regex(@".{8,}");
+
+            if (!hasMinimum8Chars.IsMatch(PasswordBox.Password))
+            {
+                MessageBox.Show("adgangskode skal være mindst 8 tegn lang");
+                return;
+            }
+
+            if (!hasUpperChar.IsMatch(PasswordBox.Password))
+            {
+                MessageBox.Show("adgangskode skal have mindst 1 stort bogstav");
+                return;
+            }
+
+            if (!hasNumber.IsMatch(PasswordBox.Password))
+            {
+                MessageBox.Show("adgangskode skal have mindst 1 tal");
+                return;
+            }
+
+            
             string username = UsernameBox.Text.ToLower();
 
             if(RoleBox.Text == "")
@@ -112,14 +138,18 @@ namespace program.Pages
                 MessageBox.Show("Du skal vælge en afdeling");
                 return;
             }
+
+            // lav ny bruger
             int department = departments.Single(x => x.city == DepartmentBox.Text).id;
 
             UserClass newUser = new UserClass(0, username, PasswordBox.Password, department, RoleBox.Text, "", "");
 
+
+            // api kald til at lave til at lave den nye bruger
             await Global.Api.CreateUser(newUser);
             await GetUsers();
-            
-            
+            clearInput();
+
         }
 
         private async void EditUserBtn_Click(object sender, RoutedEventArgs e)
@@ -135,6 +165,29 @@ namespace program.Pages
                 MessageBox.Show("Bruger navn er brugt");
                 return;
             }
+
+            Regex hasNumber = new Regex(@"[0-9]+");
+            Regex hasUpperChar = new Regex(@"[A-Z]+");
+            Regex hasMinimum8Chars = new Regex(@".{8,}");
+
+            if (!hasMinimum8Chars.IsMatch(PasswordBox.Password))
+            {
+                MessageBox.Show("adgangskode skal være mindst 8 tegn lang");
+                return;
+            }
+
+            if (!hasUpperChar.IsMatch(PasswordBox.Password))
+            {
+                MessageBox.Show("adgangskode skal have mindst 1 stort bogstav");
+                return;
+            }
+
+            if (!hasNumber.IsMatch(PasswordBox.Password))
+            {
+                MessageBox.Show("adgangskode skal have mindst 1 tal");
+                return;
+            }
+
 
             string password = string.IsNullOrEmpty(PasswordBox.Password) ? Global.Login.password : PasswordBox.Password;
             

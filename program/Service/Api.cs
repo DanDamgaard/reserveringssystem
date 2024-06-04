@@ -10,6 +10,7 @@ namespace program.Service
     {
 
         private static string apiIp = "https://dantdamgaard.dk/api";
+        //private static string apiIp = "https://localhost:7082/api";
 
         private static RestClientOptions options = new RestClientOptions(apiIp)
         {
