@@ -145,7 +145,7 @@
             <Label x:Name="DepartmentItemCountLabel" Content="Lager tal: 0"  Foreground="White" FontSize="25"/>
             <Label Foreground="White" Content="Antal:" FontSize="25" FontWeight="Bold"/>
             <TextBox x:Name="Countbox" PreviewTextInput="NumberValidation" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" FontSize="15"/>
-            <Button x:Name="CreateDepartmentItemBtn" Content="Tildel afdeling varer" Style="{DynamicResource ButtonStyle}" Width="300" Height="45" Margin="0,30,0,0" Click="CreateDepartmentItemBtn_Click"></Button>
+            <Button x:Name="CreateDepartmentItemBtn" IsEnabled="False" Opacity="0.5" Content="Tildel afdeling varer" Style="{DynamicResource ButtonStyle}" Width="300" Height="45" Margin="0,30,0,0" Click="CreateDepartmentItemBtn_Click"></Button>
             <Button x:Name="CancelDepartmentItemBtn" Content="Annuller" Style="{DynamicResource ButtonStyle}" Width="300" Height="45" Margin="0,30,0,0" Click="CancelDepartmentItemBtn_Click"></Button>
         </StackPanel>
         <StackPanel 

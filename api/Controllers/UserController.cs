@@ -119,7 +119,6 @@ namespace api.Controllers
 
                 await _userdata.InsertUser(value);
 
-
                 return Ok("Bruger blev oprettet");
             }
             catch(Exception ex)
@@ -249,7 +248,7 @@ namespace api.Controllers
 
             var token = new JwtSecurityToken(
                     claims: claims,
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddHours(8),
                     signingCredentials: creds
                 );
 

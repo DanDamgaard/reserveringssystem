@@ -195,6 +195,8 @@ namespace program.Pages
         private void ItemDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             selectedItem = (ItemClass)ItemDataGrid.SelectedItem;
+            CreateDepartmentItemBtn.IsEnabled = true;
+            CreateDepartmentItemBtn.Opacity = 1;
             ItemNameBox.Text = selectedItem.name;
             ItemBrandBox.Text = selectedItem.brand;
             ItemTypeBox.Text = selectedItem.type;
@@ -255,6 +257,8 @@ namespace program.Pages
             DepartmentItemLabel.Content = "Vælg en vare";
             DepartmentItemCountLabel.Content = "Lager tal: 0";
             Countbox.Text = "";
+            CreateDepartmentItemBtn.IsEnabled = false;
+            CreateDepartmentItemBtn.Opacity = 0.5;
         }
 
         private async void CreateDepartmentItemBtn_Click(object sender, RoutedEventArgs e)

@@ -145,7 +145,10 @@ namespace program.Pages
                 return;
             }
 
-            DepartmentItemClass item = new DepartmentItemClass(selectedItem.id, selectedItem.itemId, selectedItem.itemName,selectedItem.departmentId, ItemStatusbox.Text, CustomerNameBox.Text, CustomerPhoneBox.Text, null, null, "", "");
+            DepartmentItemClass item = new DepartmentItemClass(selectedItem.id, selectedItem.itemId,
+                selectedItem.itemName,selectedItem.departmentId, ItemStatusbox.Text, CustomerNameBox.Text, 
+                CustomerPhoneBox.Text, null, null, "", "");
+
             if(StartDatoPikcer.Text != "")
             {
                 item.startDate = (DateTime)StartDatoPikcer.Value;
