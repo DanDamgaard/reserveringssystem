@@ -18,7 +18,7 @@ namespace program.Service
             Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Debug()
                     .WriteTo.Console()
-                    .WriteTo.File("Logs\\Log.txt")
+                    .WriteTo.File(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Reserverings App Logs\\Log.txt")
                     .CreateLogger();
         }
         public void Information(string message)

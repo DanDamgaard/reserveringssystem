@@ -6,6 +6,7 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <AssemblyName>Reserverings App</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,10 +29,6 @@
     <Resource Include="Assets\Have.jpg">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>

@@ -291,6 +291,7 @@ namespace program.Pages
                 DepartmentGrid.Visibility = Visibility.Collapsed;
                 DepartmentDataGrid.Visibility = Visibility.Collapsed;
                 SearchDepartmentStack.Visibility = Visibility.Collapsed;
+                Pdf.Visibility = Visibility.Visible;
                 await GetDepartmentsButtons();
                 SearchItemStack.Visibility = Visibility.Visible;
                 DepartmentBtnGrid.Visibility = Visibility.Visible;
@@ -302,6 +303,7 @@ namespace program.Pages
                 SearchItemStack.Visibility = Visibility.Collapsed;
                 DepartmentBtnGrid.Visibility = Visibility.Collapsed;
                 DepartmentItemDataGrid.Visibility = Visibility.Collapsed;
+                Pdf.Visibility = Visibility.Collapsed;
                 await GetDepartments();
                 DepartmentGrid.Visibility = Visibility.Visible;
                 DepartmentDataGrid.Visibility = Visibility.Visible;
