@@ -35,6 +35,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Month)
     .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
     .CreateLogger();
+
 // giv adgang til host kan bruge serilog
 builder.Host.UseSerilog();
 
@@ -52,6 +53,8 @@ builder.Services.AddAuthentication(
             ValidateAudience = false
         };
     });
+
+
 // tilføj singleton til injection service
 builder.Services.AddSingleton<IDataAccess, DataAccess>();
 builder.Services.AddSingleton<IItemData, ItemData>();
